@@ -125,11 +125,11 @@ int main(int argv, char** args) {
     while (!close_requested) {
         switch (game.state) {
             case ONGOING:
-            SDL_SetRenderDrawColor(game.pRenderer,0,0,0,255);
-            SDL_RenderClear(game.pRenderer);
+                SDL_SetRenderDrawColor(game.pRenderer,0,0,0,255);
+                SDL_RenderClear(game.pRenderer);
                 sendGameData(&game);//4 //9
                 while (SDLNet_UDP_Recv(game.Socket, game.pPacket)==1) {
-                    updateServerData(&game); //8
+                    /*updateServerData(&game);*/ //8 origin of the problem
                 }
                 if(SDL_PollEvent(&event)) if(event.type==SDL_QUIT) close_requested = 1;
                 
@@ -165,10 +165,15 @@ void sendGameData(Game *pGame) {// <- Problem funktion (it sends but client only
         pGame->sData.playersData[i].color = pGame->Players[i].color;
     }
     for (int i = 0; i < MAX_CLIENTS; i++) {
+        printf("client %d\n",i);
         pGame->sData.playerNr = i;
         memcpy(pGame->pPacket->data, &(pGame->sData), sizeof(ServerData));
         pGame->pPacket->len = sizeof(ServerData);
         pGame->pPacket->address = pGame->clients[i];
+
+        printf("%d\n", pGame->clients[i].host);
+        printf("%d\n", pGame->clients[i].port);
+
         SDLNet_UDP_Send(pGame->Socket, -1, pGame->pPacket);
         SDL_SetRenderDrawColor(pGame->pRenderer, 0, 255, 0, 255);
         SDL_RenderFillRect(pGame->pRenderer, &(SDL_Rect){100, 100, 50, 50});

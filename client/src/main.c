@@ -128,9 +128,11 @@ int main (int argv, char** args) {
     while (!close_requested) {
         switch (game.state) {
             case ONGOING:
-            SDL_SetRenderDrawColor(game.pRenderer,0,0,0,255);
+                SDL_SetRenderDrawColor(game.pRenderer,0,0,0,255);
                 SDL_RenderClear(game.pRenderer);
+                printf("utanfor\n");
                 while(SDLNet_UDP_Recv(game.Socket, game.pPacket)) { //10 //Does not recive anything
+                    printf("hdjdk\n");
                     updateWithServerData(&game);
                     SDL_SetRenderDrawColor(game.pRenderer, 0, 255, 0, 255);
                     SDL_RenderFillRect(game.pRenderer, &(SDL_Rect){100, 100, 50, 50});

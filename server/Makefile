@@ -5,7 +5,7 @@ CC=gcc
 INCLUDE = C:\msys64\mingw64\include\SDL2 -I$(INCDIR)
 
 CFLAGS = -g -I$(INCLUDE) -c 
-LDFLAGS = -lmingw32 -lSDL2main -lSDL2_image -lSDL2 -lSDL2_ttf -lSDL2_net -mwindows -lm
+LDFLAGS = -lmingw32 -lSDL2main -lSDL2_image -lSDL2 -lSDL2_ttf -lSDL2_net -lm
 
 eget: main.o text.o
 	$(CC) -o egetServer main.o text.o $(LDFLAGS)
