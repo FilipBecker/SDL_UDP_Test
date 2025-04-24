@@ -9,3 +9,4 @@ Clienten kan skicka data till servern.
 Servern kan ta emot datan.  
 Servern kan skicka data till clienten.  
 Clienten tar bara emot data under start fasen (line 168) men inte under ongoing fasen (line 133).  
+Har upptäckt att det beror på att när servern hämtar data (line 132) så skriver den över de sparade klienters ipaddresser vilket den gör efter att den skickat data en gång.  
