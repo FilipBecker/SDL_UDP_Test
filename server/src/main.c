@@ -129,7 +129,7 @@ int main(int argv, char** args) {
                 SDL_RenderClear(game.pRenderer);
                 sendGameData(&game);//4 //9
                 while (SDLNet_UDP_Recv(game.Socket, game.pPacket)==1) {
-                    /*updateServerData(&game);*/ //8 origin of the problem
+                    updateServerData(&game); //8 origin of the problem
                 }
                 if(SDL_PollEvent(&event)) if(event.type==SDL_QUIT) close_requested = 1;
                 
@@ -165,14 +165,14 @@ void sendGameData(Game *pGame) {// <- Problem funktion (it sends but client only
         pGame->sData.playersData[i].color = pGame->Players[i].color;
     }
     for (int i = 0; i < MAX_CLIENTS; i++) {
-        printf("client %d\n",i);
+        //printf("client %d\n",i);
         pGame->sData.playerNr = i;
         memcpy(pGame->pPacket->data, &(pGame->sData), sizeof(ServerData));
         pGame->pPacket->len = sizeof(ServerData);
         pGame->pPacket->address = pGame->clients[i];
 
-        printf("%d\n", pGame->clients[i].host);
-        printf("%d\n", pGame->clients[i].port);
+        //printf("%d\n", pGame->clients[i].host);
+        //printf("%d\n", pGame->clients[i].port);
 
         SDLNet_UDP_Send(pGame->Socket, -1, pGame->pPacket);
         SDL_SetRenderDrawColor(pGame->pRenderer, 0, 255, 0, 255);
@@ -198,8 +198,18 @@ void drawPlayers(SDL_Renderer *renderer, Game *pGame) {
 void updateServerData(Game *pGame) {
     ClientData cData;
     memcpy(&cData, pGame->pPacket->data, sizeof(ClientData));
-    pGame->Players[cData.playerNumber].body = cData.playerData.body;
-    pGame->Players[cData.playerNumber].color = cData.playerData.color;
+
+    /*printf("%d\n", cData.playerData.body.h);
+    printf("%d\n", cData.playerData.body.w);
+    printf("%d\n", cData.playerData.body.x);
+    printf("%d\n\n", cData.playerData.body.y);*/
+
+    //printf("%d\n", cData.playerNumber);
+    if (cData.playerNumber != -1) {
+        pGame->Players[cData.playerNumber].body = cData.playerData.body;
+        pGame->Players[cData.playerNumber].color = cData.playerData.color;
+    }
+    
 }
 
 void quit(Game *pGame) {
