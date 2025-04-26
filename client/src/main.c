@@ -131,7 +131,7 @@ int main (int argv, char** args) {
                 SDL_SetRenderDrawColor(game.pRenderer,0,0,0,255);
                 SDL_RenderClear(game.pRenderer);
                 printf("utanfor\n");
-                while(SDLNet_UDP_Recv(game.Socket, game.pPacket)) { //10 //Does not recive anything
+                while(SDLNet_UDP_Recv(game.Socket, game.pPacket)) { //10 
                     printf("hdjdk\n");
                     updateWithServerData(&game);
                     SDL_SetRenderDrawColor(game.pRenderer, 0, 255, 0, 255);

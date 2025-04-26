@@ -129,7 +129,7 @@ int main(int argv, char** args) {
                 SDL_RenderClear(game.pRenderer);
                 sendGameData(&game);//4 //9
                 while (SDLNet_UDP_Recv(game.Socket, game.pPacket)==1) {
-                    updateServerData(&game); //8 origin of the problem
+                    updateServerData(&game); //8 
                 }
                 if(SDL_PollEvent(&event)) if(event.type==SDL_QUIT) close_requested = 1;
                 
@@ -158,7 +158,7 @@ void add(IPaddress address, IPaddress clients[], int *pNrOfClients) {
 	(*pNrOfClients)++;
 }
 
-void sendGameData(Game *pGame) {// <- Problem funktion (it sends but client only recives during startup)
+void sendGameData(Game *pGame) {
     pGame->sData.gState = pGame->state;
     for (int i = 0; i < MAX_CLIENTS; i++) {
         pGame->sData.playersData[i].body = pGame->Players[i].body;
